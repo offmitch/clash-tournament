@@ -52,21 +52,23 @@
       let html = "";
       for (const [label, players] of Object.entries(categories)) {
         html += `<h2>${label} Trophies</h2>`;
-        html += `<table border="1">
-          <tr><th>ID</th><th>Username</th><th>Supercell ID</th><th>Trophies</th><th>Actions</th></tr>`;
-        players.forEach(p => {
-          html += `
-            <tr>
-              <td>${p.id}</td>
-              <td contenteditable="true">${p.username}</td>
-              <td contenteditable="true">${p.supercellid}</td>
-              <td contenteditable="true">${p.trophies}</td>
-              <td>
-                <button onclick="updatePlayer(${p.id}, this)">Save</button>
-                <button onclick="deletePlayer(${p.id})">Delete</button>
-              </td>
-            </tr>`;
-        });
+       html += `<table border="1">
+        <tr><th>ID</th><th>Username</th><th>Supercell ID</th><th>Trophies</th><th>Discord Name</th><th>Actions</th></tr>`;
+      players.forEach(p => {
+      html += `
+        <tr>
+          <td>${p.id}</td>
+          <td contenteditable="true">${p.username}</td>
+          <td contenteditable="true">${p.supercellid}</td>
+          <td contenteditable="true">${p.trophies}</td>
+          <td contenteditable="true">${p.discordname}</td>
+          <td>
+            <button onclick="updatePlayer(${p.id}, this)">Save</button>
+            <button onclick="deletePlayer(${p.id})">Delete</button>
+          </td>
+        </tr>`;
+});
+
         html += `</table>`;
       }
 
@@ -86,20 +88,23 @@
     }
 
     async function updatePlayer(id, button) {
-      const row = button.closest("tr");
-      const username = row.children[1].innerText.trim();
-      const supercellId = row.children[2].innerText.trim();
-      const trophies = parseInt(row.children[3].innerText.trim());
+  const row = button.closest("tr");
+  const username = row.children[1].innerText.trim();
+  const supercellId = row.children[2].innerText.trim();
+  const trophies = parseInt(row.children[3].innerText.trim());
+  const discordName = row.children[4].innerText.trim();
 
-      const res = await fetch(`/api/player/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password: adminPassword, username, supercellId, trophies })
-      });
-      const data = await res.json();
-      if (data.success) alert("Updated successfully");
-      else alert(data.error || "Failed to update");
-    }
+  const res = await fetch(`/api/player/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ password: adminPassword, username, supercellId, trophies, discordName })
+  });
+
+  const data = await res.json();
+  if (data.success) alert("Updated successfully");
+  else alert(data.error || "Failed to update");
+}
+
   </script>
 </body>
 </html>

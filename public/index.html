@@ -3,18 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Supercell Player Entry</title>
+  <title>Player Entry</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Enter Your Supercell Info</h1>
+  <h1>Enter Your Info</h1>
 
-  <form id="playerForm">
-    <input type="text" id="username" placeholder="Name" required><br>
-    <input type="text" id="supercellId" placeholder="Username on discord" required><br>
-    <input type="number" id="trophies" placeholder="Trophies" required><br>
-    <button type="submit">Submit</button>
-  </form>
+<form id="playerForm">
+  <input type="text" id="username" placeholder="Username" required><br>
+  <input type="text" id="supercellId" placeholder="Supercell Username" required><br>
+  <input type="number" id="trophies" placeholder="Trophies" required><br>
+  <input type="text" id="discordName" placeholder="Discord Name"><br>
+  <button type="submit">Submit</button>
+</form>
+
 
   <div id="result"></div>
 
