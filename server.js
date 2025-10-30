@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const { Pool } = require("pg");
+const { Pool } = require("pg"); 
 const path = require("path");
 
 const app = express();
@@ -22,6 +22,7 @@ const pool = new Pool({
     CREATE TABLE IF NOT EXISTS players (
       id SERIAL PRIMARY KEY,
       username TEXT NOT NULL,
+      password TEXT NOT NULL, 
       supercellId TEXT NOT NULL,
       trophies INTEGER NOT NULL,
       discord_name TEXT
@@ -80,6 +81,8 @@ app.delete("/api/player/:id", async (req, res) => {
     res.status(500).json({ error: "Database error" });
   }
 });
+
+
 
 // Update player info
 app.put("/api/player/:id", async (req, res) => {

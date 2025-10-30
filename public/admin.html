@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,27 +9,28 @@
 </head>
 <style>
   body {
-  font-family: Arial, sans-serif;
-  background-image: url('background.jpg'); /* optional background image */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  height: 100vh;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: white;
-}
+    font-family: Arial, sans-serif;
+    background-image: url('background.jpg');
+    /* optional background image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
 
-h1 {
-  color: white;
-  text-shadow: 1px 1px 3px black;
-  margin-bottom: 20px;
-}
-
+  h1 {
+    color: white;
+    text-shadow: 1px 1px 3px black;
+    margin-bottom: 20px;
+  }
 </style>
+
 <body>
   <h1>Admin Dashboard</h1>
 
@@ -75,10 +77,10 @@ h1 {
       let html = "";
       for (const [label, players] of Object.entries(categories)) {
         html += `<h2>${label} Trophies</h2>`;
-       html += `<table border="1">
+        html += `<table border="1">
         <tr><th>ID</th><th>Username</th><th>Supercell ID</th><th>Trophies</th><th>Discord Name</th><th>Actions</th></tr>`;
-      players.forEach(p => {
-      html += `
+        players.forEach(p => {
+          html += `
         <tr>
           <td>${p.id}</td>
           <td contenteditable="true">${p.username}</td>
@@ -90,7 +92,7 @@ h1 {
             <button onclick="deletePlayer(${p.id})">Delete</button>
           </td>
         </tr>`;
-});
+        });
 
         html += `</table>`;
       }
@@ -111,23 +113,24 @@ h1 {
     }
 
     async function updatePlayer(id, button) {
-  const row = button.closest("tr");
-  const username = row.children[1].innerText.trim();
-  const supercellId = row.children[2].innerText.trim();
-  const trophies = parseInt(row.children[3].innerText.trim());
-  const discordName = row.children[4].innerText.trim();
+      const row = button.closest("tr");
+      const username = row.children[1].innerText.trim();
+      const supercellId = row.children[2].innerText.trim();
+      const trophies = parseInt(row.children[3].innerText.trim());
+      const discordName = row.children[4].innerText.trim();
 
-  const res = await fetch(`/api/player/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ password: adminPassword, username, supercellId, trophies, discordName })
-  });
+      const res = await fetch(`/api/player/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: adminPassword, username, supercellId, trophies, discordName })
+      });
 
-  const data = await res.json();
-  if (data.success) alert("Updated successfully");
-  else alert(data.error || "Failed to update");
-}
+      const data = await res.json();
+      if (data.success) alert("Updated successfully");
+      else alert(data.error || "Failed to update");
+    }
 
   </script>
 </body>
+
 </html>
