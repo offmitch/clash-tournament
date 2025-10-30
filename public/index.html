@@ -7,24 +7,29 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="content">
   <h1>Enter Your Info</h1>
 
-<form id="playerForm">
-  <input type="text" id="username" placeholder="Name (first name or full name)" required><br>
-  <input type="text" id="supercellId" placeholder="Supercell Username" required><br>
-  <input type="number" id="trophies" placeholder="Trophies" required><br>
-  <input type="text" id="discordName" placeholder="Discord Name"><br>
-  <button type="submit">Submit</button>
-</form>
- 
-<p id="trophyNote">
+  <div class="form-container">
+    <img src="BCIT_Clash.png" class="side-image" alt="Left Image">
+    
+    <form id="playerForm">
+      <input type="text" id="username" placeholder="Name (first name or full name)" required><br>
+      <input type="text" id="supercellId" placeholder="Supercell Username" required><br>
+      <input type="number" id="trophies" placeholder="Trophies" required><br>
+      <input type="text" id="discordName" placeholder="Discord Name"><br>
+      <button type="submit">Submit</button>
+    </form>
+
+    <img src="BCIT_Clash.png" class="side-image" alt="Right Image">
+  </div>
+
+  <p id="trophyNote">
     *Note: For your trophy count, you can instead put the trophy count of players you would feel comfortable playing against.
   </p>
 
   <div id="result"></div>
-
-
-
+</div>
   <script src="script.js"></script>
 </body>
 </html>

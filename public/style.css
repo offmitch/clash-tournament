@@ -1,39 +1,82 @@
+/* Full background image */
 body {
   font-family: Arial, sans-serif;
+  background-image: url('background.jpg'); /* Replace with your image */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center; /* horizontal centering */
+  align-items: center; /* vertical centering */
+  color: white;
+}
+
+/* Container for all content (centers everything together) */
+.content {
   text-align: center;
-  background-color: #f4f4f4;
-  padding: 30px;
+}
+
+/* Heading and note styling */
+h1 {
+  color: white;
+  text-shadow: 1px 1px 3px black;
+}
+
+/* Form layout */
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin: 20px 0;
 }
 
 form {
-  background: white;
-  display: inline-block;
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px;
+  border: 2px solid rgba(255, 255, 255, 0.6);
   border-radius: 10px;
-  box-shadow: 0 0 10px gray;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
 }
 
-input, button {
-  margin: 10px;
-  padding: 10px;
+form input {
+  margin: 5px 0;
+  padding: 30px;
+  border: none;
+  border-radius: 5px;
   width: 200px;
 }
 
-table {
-  margin: 20px auto;
-  border-collapse: collapse;
-  width: 60%;
-  background: white;
+form button {
+  margin-top: 10px;
+  padding: 20px 200px;
+  border: none;
+  border-radius: 5px;
+  background-color: #00bfff;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-th, td {
-  padding: 10px;
+form button:hover {
+  background-color: #008ccc;
+}
+
+/* Side images */
+.side-image {
+  width: 300px;
+  height: auto;
 }
 
 #trophyNote {
-  font-size: 0.9em;
-  color: #555;
+  background-color: rgb(255, 255, 255);
+  padding: 10px;
+  color: black;
   margin-top: 10px;
   font-style: italic;
 }
-
