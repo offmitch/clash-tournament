@@ -24,14 +24,14 @@ const pool = new Pool({
       username TEXT NOT NULL,
       supercellId TEXT NOT NULL,
       trophies INTEGER NOT NULL,
-      discordName TEXT
+      discord_name TEXT
     );
   `);
   client.release();
   console.log("Database ready");
 })();
 
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
 // Add player
 app.post("/api/addPlayer", async (req, res) => {
@@ -41,10 +41,10 @@ app.post("/api/addPlayer", async (req, res) => {
 
   try {
     await pool.query(
-      "INSERT INTO players (username, supercellId, trophies, discordName) VALUES ($1, $2, $3, $4)",
-      [username, supercellId, trophies, discordName || null]
+      "INSERT INTO players (username, supercellId, trophies, discord_name) VALUES ($1, $2, $3, $4)",
+      [username, supercellId, trophies, discordName]
     );
-    res.json({ success: true, discordLink: "https://discord.gg/YOUR_INVITE_LINK" });
+    res.json({ success: true, discordLink: "https://discord.gg/GCmXsdQK" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Database error" });
@@ -88,7 +88,7 @@ app.put("/api/player/:id", async (req, res) => {
 
   try {
     await pool.query(
-      "UPDATE players SET username=$1, supercellId=$2, trophies=$3, discordName=$4 WHERE id=$5",
+      "UPDATE players SET username=$1, supercellId=$2, trophies=$3, discord_name=$4 WHERE id=$5",
       [username, supercellId, trophies, discordName, id]
     );
     res.json({ success: true });
