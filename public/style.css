@@ -29,3 +29,11 @@ table {
 th, td {
   padding: 10px;
 }
+
+#trophyNote {
+  font-size: 0.9em;
+  color: #555;
+  margin-top: 10px;
+  font-style: italic;
+}
+

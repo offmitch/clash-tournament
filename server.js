@@ -35,21 +35,22 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
 // Add player
 app.post("/api/addPlayer", async (req, res) => {
-  const { username, supercellId, trophies, discordName } = req.body;
+  const { username, supercellId, trophies, discordName } = req.body; // discordName comes from frontend
   if (!username || !supercellId || trophies === undefined)
     return res.status(400).json({ error: "Missing fields" });
 
   try {
     await pool.query(
-      "INSERT INTO players (username, supercellId, trophies, discord_name) VALUES ($1, $2, $3, $4)",
-      [username, supercellId, trophies, discordName]
+      `INSERT INTO players (username, supercellid, trophies, discord_name) VALUES ($1, $2, $3, $4)`,
+      [username, supercellId, trophies, discordName || null] // send it here
     );
-    res.json({ success: true, discordLink: "https://discord.gg/GCmXsdQK" });
+    res.json({ success: true, discordLink: "https://discord.gg/YOUR_INVITE_LINK" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Database error" });
   }
 });
+
 
 // Get all players (admin)
 app.post("/api/players", async (req, res) => {
