@@ -49,7 +49,7 @@ app.post("/api/addPlayer", async (req, res) => {
 
     res.json({
       success: true,
-      discordLink: "https://discord.gg/YOUR_INVITE_LINK"
+      discordLink: "https://discord.gg/GCmXsdQK"
     });
   } catch (err) {
     console.error(err);
