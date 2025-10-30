@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Admin Dashboard</h1>
+  <div id="tables"></div>
+
+  <script>
+    async function loadPlayers() {
+      const res = await fetch("/api/players");
+      const data = await res.json();
+
+      const categories = {
+        "<7k": data.filter(p => p.trophies < 7000),
+        "7k-10k": data.filter(p => p.trophies >= 7000 && p.trophies < 10000),
+        "10k+": data.filter(p => p.trophies >= 10000)
+      };
+
+      let html = "";
+      for (const [label, players] of Object.entries(categories)) {
+        html += `<h2>${label} Trophies</h2>`;
+        html += `<table border="1"><tr><th>Username</th><th>Supercell ID</th><th>Trophies</th></tr>`;
+        players.forEach(p => {
+          html += `<tr><td>${p.username}</td><td>${p.supercellId}</td><td>${p.trophies}</td></tr>`;
+        });
+        html += `</table>`;
+      }
+
+      document.getElementById("tables").innerHTML = html;
+    }
+
+    loadPlayers();
+  </script>
+</body>
+</html>
