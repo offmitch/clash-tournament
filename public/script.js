@@ -15,8 +15,10 @@ document.getElementById("playerForm").addEventListener("submit", async (e) => {
   const data = await res.json();
   if (data.success) {
     document.getElementById("result").innerHTML = 
-      `<p>Submission successful!</p>
-       <a href="${data.discordLink}" target="_blank">Join Discord</a>`;
+      ` <img src="discord.jpg" class="discord-logo" alt="Discord Logo">
+  <p>Thanks for submitting your info!</p>
+  <a href="https://discord.gg/your-server" target="_blank">Join the Discord for Updates</a>
+  `;
   } else {
     document.getElementById("result").innerText = data.error || "Error submitting data";
   }
