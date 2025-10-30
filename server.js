@@ -45,7 +45,7 @@ app.post("/api/addPlayer", async (req, res) => {
       `INSERT INTO players (username, supercellid, trophies, discord_name) VALUES ($1, $2, $3, $4)`,
       [username, supercellId, trophies, discordName || null]
     );
-    res.json({ success: true, discordLink: "https://discord.gg/GCmXsdQK" });
+    res.json({ success: true, discordLink: "https://discord.gg/rTKy2bmMgS"});
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Database error" });
