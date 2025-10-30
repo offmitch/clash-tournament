@@ -12,10 +12,10 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-// Connect to PostgreSQL
+// PostgreSQL connection
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL, // provided by Render
-  ssl: { rejectUnauthorized: false } // required for Render PostgreSQL
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false },
 });
 
 // Initialize database
@@ -30,38 +30,73 @@ const pool = new Pool({
     );
   `);
   client.release();
-  console.log("Database initialized");
+  console.log("Database ready");
 })();
+
+// ADMIN PASSWORD (change this!)
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+
+// Routes
 
 // Add player
 app.post("/api/addPlayer", async (req, res) => {
   const { username, supercellId, trophies } = req.body;
-
-  if (!username || !supercellId || trophies === undefined) {
-    return res.status(400).json({ error: "Missing required fields" });
-  }
+  if (!username || !supercellId || trophies === undefined)
+    return res.status(400).json({ error: "Missing fields" });
 
   try {
     await pool.query(
       "INSERT INTO players (username, supercellId, trophies) VALUES ($1, $2, $3)",
       [username, supercellId, trophies]
     );
-
-    res.json({
-      success: true,
-      discordLink: "https://discord.gg/GCmXsdQK"
-    });
+    res.json({ success: true, discordLink: "https://discord.gg/YOUR_INVITE_LINK" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Database error" });
   }
 });
 
-// Get all players
-app.get("/api/players", async (req, res) => {
+// Get all players (admin only)
+app.post("/api/players", async (req, res) => {
+  const { password } = req.body;
+  if (password !== ADMIN_PASSWORD) return res.status(403).json({ error: "Unauthorized" });
+
   try {
     const result = await pool.query("SELECT * FROM players ORDER BY trophies DESC");
     res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Database error" });
+  }
+});
+
+// Delete player
+app.delete("/api/player/:id", async (req, res) => {
+  const { password } = req.body;
+  const { id } = req.params;
+  if (password !== ADMIN_PASSWORD) return res.status(403).json({ error: "Unauthorized" });
+
+  try {
+    await pool.query("DELETE FROM players WHERE id = $1", [id]);
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Database error" });
+  }
+});
+
+// Update player info
+app.put("/api/player/:id", async (req, res) => {
+  const { password, username, supercellId, trophies } = req.body;
+  const { id } = req.params;
+  if (password !== ADMIN_PASSWORD) return res.status(403).json({ error: "Unauthorized" });
+
+  try {
+    await pool.query(
+      "UPDATE players SET username=$1, supercellId=$2, trophies=$3 WHERE id=$4",
+      [username, supercellId, trophies, id]
+    );
+    res.json({ success: true });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Database error" });
