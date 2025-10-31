@@ -6,8 +6,121 @@
     <title>Confirm Your Information</title>
     <link rel="stylesheet" href="style.css" />
 </head>
+<style>
+    body {
+        /* background: linear-gradient(135deg, #202020, #3a3a3a); */
+        color: white;
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        text-align: center;
+        margin: 0;
+        padding: 20px;
+    }
 
-<body>
+    /* Form container */
+    form {
+        display: flex;
+        flex-direction: column;
+        /* background: rgba(255, 255, 255, 0.1); */
+        padding: 2rem;
+        border-radius: 12px;
+        gap: 1rem;
+        width: 500px;
+        max-width: 90%;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Inputs */
+    input {
+        padding: 14px;
+        border-radius: 6px;
+        border: none;
+        font-size: 20.05rem;
+        width: 100%;
+    }
+
+    /* Button */
+    button {
+        padding: 14px;
+        background-color: #5865f2;
+        border: none;
+        border-radius: 8px;
+        color: white;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+    }
+
+    button:hover {
+        background-color: #4752c4;
+        transform: scale(1.02);
+    }
+
+    /* Headings and messages */
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 1.2rem;
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    #saveResult {
+        margin-top: 1rem;
+        font-size: 1.1rem;
+    }
+
+    /* 📱 Mobile Responsive */
+    @media (max-width: 768px) {
+        body {
+            padding: 20px;
+        }
+
+        form {
+            width: 100%;
+            padding: 20.5rem;
+        }
+
+        h1 {
+            font-size: 5rem;
+        }
+
+        input {
+            font-size: 20rem;
+            padding: 12px;
+        }
+
+        button {
+            font-size: 1rem;
+            padding: 12px;
+        }
+
+        #saveResult {
+            font-size: 1rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        form {
+            padding: 1.2rem;
+        }
+
+        h1 {
+            font-size: 10.6rem;
+        }
+
+        input,
+        button {
+            font-size: 10.95rem;
+        }
+    }
+</style>
+
+
+<body class="confirm-page">
     <div class="content">
         <h1>Confirm Your Information</h1>
 
@@ -32,5 +145,6 @@
 
     <script src="confirm.js"></script>
 </body>
+
 
 </html>
