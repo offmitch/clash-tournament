@@ -55,6 +55,36 @@ app.post("/addPlayer", async (req, res) => {
       "INSERT INTO players (username, supercellId, trophies, discord_name) VALUES (?, ?, ?, ?)",
       [username, supercellId, trophies, discordName || null]
     );
+    res.json({ success: true, discordLink: "https://discord.gg/GCmXsdQK" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Database error" });
+  }
+});
+
+
+// Get all players (admin)
+app.post("/api/players", async (req, res) => {
+  const { password } = req.body;
+  if (password !== ADMIN_PASSWORD) return res.status(403).json({ error: "Unauthorized" });
+
+  try {
+    const result = await pool.query("SELECT * FROM players ORDER BY trophies DESC");
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Database error" });
+  }
+});
+
+// Delete player
+app.delete("/api/player/:id", async (req, res) => {
+  const { password } = req.body;
+  const { id } = req.params;
+  if (password !== ADMIN_PASSWORD) return res.status(403).json({ error: "Unauthorized" });
+
+  try {
+    await pool.query("DELETE FROM players WHERE id = $1", [id]);
     res.json({ success: true });
   } catch (err) {
     console.error("❌ Database error:", err);
