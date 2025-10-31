@@ -7,7 +7,7 @@ window.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  // Fill form fields
+  // Fill form fields with stored values
   document.getElementById("confirmUsername").value = info.username;
   document.getElementById("confirmSupercellId").value = info.supercellId;
   document.getElementById("confirmTrophies").value = info.trophies;
@@ -34,16 +34,16 @@ document.getElementById("confirmForm").addEventListener("submit", async (e) => {
     const data = await res.json();
 
     if (data.success) {
-      document.getElementById("saveResult").innerHTML = `
-        <p>✅ Saved successfully! Thank you, ${username}.</p>
-        <a href="index.html">Return Home</a>
-      `;
+      // ✅ Redirect to Discord page instead of showing inline message
       sessionStorage.removeItem("playerInfo");
+      window.location.href = "success.html"; // 👈 THIS LINE sends them to the Discord page
     } else {
-      document.getElementById("saveResult").innerText = data.error || "Error saving info.";
+      document.getElementById("saveResult").innerText =
+        data.error || "Error saving info.";
     }
   } catch (err) {
-    document.getElementById("saveResult").innerText = "Failed to save data. Try again.";
+    document.getElementById("saveResult").innerText =
+      "Failed to save data. Try again.";
     console.error(err);
   }
 });
