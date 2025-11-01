@@ -375,3 +375,23 @@ body.success-page a.discord-link {
   font-size: 1.4rem;
   padding: 1.2rem 2rem;
 }
+
+/* Inline styled error message */
+.error-message {
+  background-color: rgba(255, 0, 0, 0.15);
+  color: #ffffff;
+  /* padding: 12px 15px; */
+  border-left: 4px solid #ff4d4d;
+  border-radius: 6px;
+  margin-top: 10px;
+  font-weight: 600;
+  display: none;
+}
+
+.error-message.show {
+  display: block;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+
+

@@ -1,4 +1,4 @@
-document.getElementById("playerForm").addEventListener("submit", (e) => {
+document.getElementById("playerForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const username = document.getElementById("username").value.trim();
@@ -7,15 +7,32 @@ document.getElementById("playerForm").addEventListener("submit", (e) => {
   const discordName = document.getElementById("discordName").value.trim();
 
   if (!username || !supercellId || isNaN(trophies)) {
-    alert("Please fill in all required fields.");
+    document.getElementById("result").innerText = "Please fill in all required fields.";
     return;
   }
 
-  // Store data temporarily
-  sessionStorage.setItem("playerInfo", JSON.stringify({
-    username, supercellId, trophies, discordName
-  }));
+  // ✅ Only check if username exists, do NOT add to DB yet:
+  try {
+    const res = await fetch("/checkUsername", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username })
+    });
 
-  // Redirect to confirmation page
-  window.location.href = "confirm.html";
+    const data = await res.json();
+
+    if (data.exists) {
+      document.getElementById("result").innerText = "Username already exists. Please choose another one.";
+      document.getElementById("result").classList.add("show");
+    } else {
+      // ✅ Username is unique, move to confirm page with stored data
+      sessionStorage.setItem("playerInfo", JSON.stringify({
+        username, supercellId, trophies, discordName
+      }));
+      window.location.href = "confirm.html";
+    }
+  } catch (err) {
+    console.error("Error:", err);
+    document.getElementById("result").innerText = "Server error. Please try again.";
+  }
 });

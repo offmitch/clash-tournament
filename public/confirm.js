@@ -43,7 +43,7 @@ document.getElementById("confirmForm").addEventListener("submit", async (e) => {
         }
     } catch (err) {
         document.getElementById("saveResult").innerText =
-            "Failed to save data. Try again.";
+            "Username already exists. Please go back and choose another.";
         console.error(err);
     }
 });
