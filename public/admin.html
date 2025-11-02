@@ -67,16 +67,16 @@
 
       document.getElementById("login-section").style.display = "none";
       document.getElementById("dashboard").style.display = "block";
-
       const categories = {
         "<7k": data.filter(p => p.trophies < 7000),
         "7k-10k": data.filter(p => p.trophies >= 7000 && p.trophies < 10000),
-        "10k+": data.filter(p => p.trophies >= 10000)
+        "10k+": data.filter(p => p.trophies >= 10000),
+        "All Players": [...data].sort((a, b) => b.trophies - a.trophies)
       };
 
       let html = "";
       for (const [label, players] of Object.entries(categories)) {
-        html += `<h2>${label} Trophies</h2>`;
+        html += `<h2>${label}</h2>`;
         html += `<table border="1">
         <tr><th>ID</th><th>Username</th><th>Supercell ID</th><th>Trophies</th><th>Discord Name</th><th>Actions</th></tr>`;
         players.forEach(p => {
