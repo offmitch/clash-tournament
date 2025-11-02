@@ -1,46 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: #121212;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    table {
+      width: 90%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background: white;
+      color: black;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    th {
+      background-color: #333;
+      color: white;
+    }
+
+    button {
+      padding: 6px 12px;
+      border: none;
+      background-color: #5865f2;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #4752c4;
+    }
+
+    #login-section {
+      margin-top: 20px;
+    }
+
+    #login-section input {
+      padding: 10px;
+      font-size: 1rem;
+    }
+
+    #player-summary {
+      margin: 20px auto;
+      padding: 10px;
+      width: 90%;
+      max-width: 600px;
+      background: #222;
+      border-radius: 8px;
+      color: #eee;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+  </style>
 </head>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background-image: url('background.jpg');
-    /* optional background image */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 100vh;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: white;
-  }
-
-  h1 {
-    color: white;
-    text-shadow: 1px 1px 3px black;
-    margin-bottom: 20px;
-  }
-</style>
-
 <body>
   <h1>Admin Dashboard</h1>
 
   <div id="login-section">
-    <input type="password" id="adminPassword" placeholder="Enter admin password">
+    <input type="password" id="adminPassword" placeholder="Enter Admin Password" />
     <button onclick="login()">Login</button>
   </div>
 
-  <div id="dashboard" style="display:none;">
-    <button class="reload" onclick="loadPlayers()">Reload Players</button>
+  <div id="dashboard" style="display: none;">
+    <h2>Welcome Admin</h2>
     <div id="tables"></div>
   </div>
 
@@ -67,6 +101,7 @@
 
       document.getElementById("login-section").style.display = "none";
       document.getElementById("dashboard").style.display = "block";
+
       const categories = {
         "<7k": data.filter(p => p.trophies < 7000),
         "7k-10k": data.filter(p => p.trophies >= 7000 && p.trophies < 10000),
@@ -74,26 +109,34 @@
         "All Players": [...data].sort((a, b) => b.trophies - a.trophies)
       };
 
-      let html = "";
+      const summaryHTML = `
+        <div id="player-summary">
+          <p><strong>Total Players:</strong> ${data.length}</p>
+          <p><strong>< 7k Trophies:</strong> ${categories["<7k"].length}</p>
+          <p><strong>7k - 10k Trophies:</strong> ${categories["7k-10k"].length}</p>
+          <p><strong>10k+ Trophies:</strong> ${categories["10k+"].length}</p>
+        </div>
+      `;
+
+      let html = summaryHTML;
       for (const [label, players] of Object.entries(categories)) {
         html += `<h2>${label}</h2>`;
-        html += `<table border="1">
-        <tr><th>ID</th><th>Username</th><th>Supercell ID</th><th>Trophies</th><th>Discord Name</th><th>Actions</th></tr>`;
+        html += `<table>
+          <tr><th>ID</th><th>Username</th><th>Supercell ID</th><th>Trophies</th><th>Discord Name</th><th>Actions</th></tr>`;
         players.forEach(p => {
           html += `
-        <tr>
-          <td>${p.id}</td>
-          <td contenteditable="true">${p.username}</td>
-          <td contenteditable="true">${p.supercellid}</td>
-          <td contenteditable="true">${p.trophies}</td>
-          <td contenteditable="true">${p.discord_name}</td>
-          <td>
-            <button onclick="updatePlayer(${p.id}, this)">Save</button>
-            <button onclick="deletePlayer(${p.id})">Delete</button>
-          </td>
-        </tr>`;
+          <tr>
+            <td>${p.id}</td>
+            <td contenteditable="true">${p.username}</td>
+            <td contenteditable="true">${p.supercellId}</td>
+            <td contenteditable="true">${p.trophies}</td>
+            <td contenteditable="true">${p.discord_name}</td>
+            <td>
+              <button onclick="updatePlayer(${p.id}, this)">Save</button>
+              <button onclick="deletePlayer(${p.id})">Delete</button>
+            </td>
+          </tr>`;
         });
-
         html += `</table>`;
       }
 
@@ -102,35 +145,43 @@
 
     async function deletePlayer(id) {
       if (!confirm("Are you sure you want to delete this player?")) return;
+
       const res = await fetch(`/api/player/${id}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password: adminPassword })
       });
+
       const data = await res.json();
-      if (data.success) loadPlayers();
-      else alert(data.error || "Failed to delete");
+      if (data.success) {
+        alert("Player deleted");
+        loadPlayers();
+      } else {
+        alert("Error deleting player");
+      }
     }
 
-    async function updatePlayer(id, button) {
-      const row = button.closest("tr");
-      const username = row.children[1].innerText.trim();
-      const supercellId = row.children[2].innerText.trim();
-      const trophies = parseInt(row.children[3].innerText.trim());
-      const discordName = row.children[4].innerText.trim();
+    async function updatePlayer(id, btn) {
+      const row = btn.closest("tr");
+      const username = row.cells[1].innerText.trim();
+      const supercellId = row.cells[2].innerText.trim();
+      const trophies = parseInt(row.cells[3].innerText.trim());
+      const discordName = row.cells[4].innerText.trim();
 
       const res = await fetch(`/api/player/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password: adminPassword, username, supercellId, trophies, discordName })
+        body: JSON.stringify({ username, supercellId, trophies, discordName, password: adminPassword })
       });
 
       const data = await res.json();
-      if (data.success) alert("Updated successfully");
-      else alert(data.error || "Failed to update");
+      if (data.success) {
+        alert("Player updated");
+        loadPlayers();
+      } else {
+        alert("Error updating player");
+      }
     }
-
   </script>
 </body>
-
 </html>
