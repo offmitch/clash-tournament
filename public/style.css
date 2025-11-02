@@ -378,10 +378,8 @@ body.success-page a.discord-link {
 
 /* Inline styled error message */
 .error-message {
-  background-color: rgba(255, 0, 0, 0.15);
   color: #ffffff;
-  /* padding: 12px 15px; */
-  border-left: 4px solid #ff4d4d;
+  padding: 12px 15px;
   border-radius: 6px;
   margin-top: 10px;
   font-weight: 600;
@@ -389,8 +387,10 @@ body.success-page a.discord-link {
 }
 
 .error-message.show {
-  display: block;
   animation: fadeIn 0.4s ease-in-out;
+  background-color: rgba(255, 0, 0, 0.15);
+  border-left: 4px solid #ff4d4d;
+  display: block;
 }
 
 
