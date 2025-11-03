@@ -386,6 +386,7 @@ body.success-page a.discord-link {
   display: none;
 }
 
+
 .error-message.show {
   animation: fadeIn 0.4s ease-in-out;
   background-color: rgba(255, 0, 0, 0.15);
