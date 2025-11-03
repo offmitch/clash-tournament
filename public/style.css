@@ -147,8 +147,8 @@ form button:hover {
 #result {
   /* background-color: rgba(255, 255, 255, 0.25); */
   border-radius: 12px;
-  width: 300px;
-  height: 300px;
+  width: 150px;
+  height: 100px;
   margin: 30px auto;
   display: flex;
   flex-direction: column;
