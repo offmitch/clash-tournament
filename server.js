@@ -74,7 +74,7 @@ app.post("/addPlayer", async (req, res) => {
 
     res.json({
       success: true,
-      discordLink: "https://discord.gg/GCmXsdQK",
+      discordLink: "https://discord.gg/rTKy2bmMgS",
     });
   } catch (err) {
     console.error("Error adding player:", err);
