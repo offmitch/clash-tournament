@@ -37,7 +37,7 @@ const pool = mysql.createPool({
   console.log("✅ MySQL table ready");
 })();
 
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
 // ==========================================================
 // 🚀 ROUTES (must come BEFORE static middleware)
